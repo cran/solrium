@@ -1,5 +1,5 @@
 #' @title Faceted search
-#' 
+#'
 #' @description Returns only facet items
 #'
 #' @template facet
@@ -23,13 +23,20 @@
 #'
 #' # Using facet.query to get counts
 #' solr_facet(q='*:*', facet.field='journal', facet.query=c('cell','bird'))
-#' 
+#'
 #' # Using facet.pivot to simulate SQL group by counts
-#' solr_facet(q='alcohol', facet.pivot='journal,subject', 
+#' solr_facet(q='alcohol', facet.pivot='journal,subject',
 #'              facet.pivot.mincount=10)
+#' ## two or more fields are required - you can pass in as a single character string
+#' solr_facet(facet.pivot = "journal,subject", facet.limit =  3)
+#' ## Or, pass in as a vector of length 2 or greater
+#' solr_facet(facet.pivot = c("journal", "subject"), facet.limit =  3)
 #'
 #' # Date faceting
 #' solr_facet(q='*:*', facet.date='publication_date',
+#' facet.date.start='NOW/DAY-5DAYS', facet.date.end='NOW', facet.date.gap='+1DAY')
+#' ## two variables
+#' solr_facet(q='*:*', facet.date=c('publication_date', 'timestamp'),
 #' facet.date.start='NOW/DAY-5DAYS', facet.date.end='NOW', facet.date.gap='+1DAY')
 #'
 #' # Range faceting
@@ -60,40 +67,40 @@
 #'    wt='xml')
 #' solr_parse(out)
 #'
-#' # Using the USGS BISON API (http://bison.usgs.ornl.gov/services.html#solr)
+#' # Using the USGS BISON API (https://bison.usgs.gov/#solr)
 #' ## The occurrence endpoint
-#' solr_connect("http://bison.usgs.ornl.gov/solrstaging/occurrences/select")
+#' solr_connect("https://bison.usgs.gov/solr/occurrences/select")
 #' solr_facet(q='*:*', facet.field='year')
-#' solr_facet(q='*:*', facet.field='state_code')
-#' solr_facet(q='*:*', facet.field='basis_of_record')
+#' solr_facet(q='*:*', facet.field='computedStateFips')
 #'
 #' # using a proxy
-#' prox <- list(url = "54.195.48.153", port = 8888)
-#' solr_connect(url = 'http://api.plos.org/search', proxy = prox)
-#' solr_facet(facet.field='journal', callopts=verbose())
+#' # prox <- list(url = "54.195.48.153", port = 8888)
+#' # solr_connect(url = 'http://api.plos.org/search', proxy = prox)
+#' # solr_facet(facet.field='journal', callopts=verbose())
 #' }
 
 solr_facet <- function(name = NULL, q="*:*", facet.query=NA, facet.field=NA,
-   facet.prefix = NA,facet.sort = NA,facet.limit = NA,facet.offset = NA,
-   facet.mincount = NA,facet.missing = NA,facet.method = NA,facet.enum.cache.minDf = NA,
-   facet.threads = NA,facet.date = NA,facet.date.start = NA,facet.date.end = NA,
-   facet.date.gap = NA,facet.date.hardend = NA,facet.date.other = NA,
-   facet.date.include = NA,facet.range = NA,facet.range.start = NA,facet.range.end = NA,
-   facet.range.gap = NA,facet.range.hardend = NA,facet.range.other = NA,facet.range.include = NA,
+   facet.prefix = NA, facet.sort = NA, facet.limit = NA, facet.offset = NA,
+   facet.mincount = NA, facet.missing = NA, facet.method = NA, facet.enum.cache.minDf = NA,
+   facet.threads = NA, facet.date = NA, facet.date.start = NA, facet.date.end = NA,
+   facet.date.gap = NA, facet.date.hardend = NA, facet.date.other = NA,
+   facet.date.include = NA, facet.range = NA, facet.range.start = NA, facet.range.end = NA,
+   facet.range.gap = NA, facet.range.hardend = NA, facet.range.other = NA, facet.range.include = NA,
    facet.pivot = NA, facet.pivot.mincount = NA, start=NA, rows=NA, key=NA, wt='json',
    raw=FALSE, callopts=list(), ...) {
 
   check_defunct(...)
   conn <- solr_settings()
   check_conn(conn)
+  check_wt(wt)
   todonames <- c("q",  "facet.query",  "facet.field",
      "facet.prefix", "facet.sort", "facet.limit", "facet.offset",
      "facet.mincount", "facet.missing", "facet.method", "facet.enum.cache.minDf",
      "facet.threads", "facet.date", "facet.date.start", "facet.date.end",
      "facet.date.gap", "facet.date.hardend", "facet.date.other",
      "facet.date.include", "facet.range", "facet.range.start", "facet.range.end",
-     "facet.range.gap", "facet.range.hardend", "facet.range.other", 
-     "facet.range.include", "facet.pivot", "facet.pivot.mincount", 
+     "facet.range.gap", "facet.range.hardend", "facet.range.other",
+     "facet.range.include", "facet.pivot", "facet.pivot.mincount",
      "start", "rows", "key", "wt")
   args <- collectargs(todonames)
   args$fl <- 'DOES_NOT_EXIST'
@@ -101,8 +108,19 @@ solr_facet <- function(name = NULL, q="*:*", facet.query=NA, facet.field=NA,
 
   # additional parameters
   args <- c(args, list(...))
+  if (length(args[names(args) %in% "facet.pivot"]) > 1) {
+    xx <- paste0(unlist(unname(args[names(args) %in% "facet.pivot"])), collapse = ",")
+    args[names(args) %in% "facet.pivot"] <- NULL
+    args$facet.pivot <- xx
+  }
 
-  out <- structure(solr_GET(handle_url(conn, name), args, callopts, conn$proxy), 
-                   class="sr_facet", wt=wt)
-  if (raw){ return( out ) } else { solr_parse(out) }
+  out <- structure(solr_GET(handle_url(conn, name), args, callopts, conn$proxy),
+                   class = "sr_facet", wt = wt)
+  if (raw) {
+    return( out )
+  } else {
+    parsed <- cont_parse(out, wt)
+    parsed <- structure(parsed, class = c(class(parsed), "sr_facet"))
+    solr_parse(parsed)
+  }
 }

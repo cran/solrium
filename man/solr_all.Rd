@@ -8,7 +8,7 @@ solr_all(name = NULL, q = "*:*", sort = NULL, start = 0, rows = NULL,
   pageDoc = NULL, pageScore = NULL, fq = NULL, fl = NULL,
   defType = NULL, timeAllowed = NULL, qt = NULL, wt = "json",
   NOW = NULL, TZ = NULL, echoHandler = NULL, echoParams = NULL,
-  key = NULL, callopts = list(), raw = FALSE, parsetype = "list",
+  key = NULL, callopts = list(), raw = FALSE, parsetype = "df",
   concat = ",", ...)
 }
 \arguments{
@@ -54,7 +54,7 @@ mean no time restriction. Partial results may be returned (if there are any).}
 \item{qt}{Which query handler used. Options: dismax, others?}
 
 \item{wt}{(character) One of json (default) or xml. If json, uses
-\code{\link[jsonlite]{fromJSON}} to parse. If xml, uses \code{\link[XML]{xmlParse}}
+\code{\link[jsonlite]{fromJSON}} to parse. If xml, uses \code{\link[xml2]{read_xml}}
 to parse. You can't use \code{csv} because the point of this function}
 
 \item{NOW}{Set a fixed time for evaluating Date based expresions}
