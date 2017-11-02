@@ -2,14 +2,17 @@
 % Please edit documentation in R/update_xml.R
 \name{update_xml}
 \alias{update_xml}
-\title{Update documents using XML}
+\title{Update documents with XML data}
 \usage{
-update_xml(files, name, commit = TRUE, optimize = FALSE, max_segments = 1,
-  expunge_deletes = FALSE, wait_searcher = TRUE, soft_commit = FALSE,
-  prepare_commit = NULL, wt = "json", raw = FALSE, ...)
+update_xml(conn, files, name, commit = TRUE, optimize = FALSE,
+  max_segments = 1, expunge_deletes = FALSE, wait_searcher = TRUE,
+  soft_commit = FALSE, prepare_commit = NULL, wt = "json", raw = FALSE,
+  ...)
 }
 \arguments{
-\item{files}{Path to file to load into Solr}
+\item{conn}{A solrium connection object, see \link{SolrClient}}
+
+\item{files}{Path to a single file to load into Solr}
 
 \item{name}{(character) Name of the core or collection}
 
@@ -34,56 +37,61 @@ Default: \code{FALSE}}
 calls Lucene's IndexWriter.prepareCommit(). Not passed by default}
 
 \item{wt}{(character) One of json (default) or xml. If json, uses 
-\code{\link[jsonlite]{fromJSON}} to parse. If xml, uses \code{\link[XML]{xmlParse}} to 
-parse}
+\code{\link[jsonlite]{fromJSON}} to parse. If xml, uses 
+\code{\link[xml2]{read_xml}} to parse}
 
 \item{raw}{(logical) If \code{TRUE}, returns raw data in format specified by 
 \code{wt} param}
 
-\item{...}{curl options passed on to \code{\link[httr]{GET}}}
+\item{...}{curl options passed on to \code{\link[crul]{HttpClient}}}
 }
 \description{
-Update documents using XML
+Update documents with XML data
 }
 \details{
-You likely may not be able to run this function against many public Solr 
-services, but should work locally.
+You likely may not be able to run this function against many 
+public Solr services, but should work locally.
 }
 \examples{
 \dontrun{
-# start Solr in Schemaless mode: bin/solr start -e schemaless
+# start Solr: bin/solr start -f -c -p 8983
 
 # connect
-solr_connect()
+(conn <- SolrClient$new())
+
+# create a collection
+if (!conn$collection_exists("books")) {
+  conn$collection_create(name = "books", numShards = 2)
+}
 
 # Add documents
 file <- system.file("examples", "books.xml", package = "solrium")
 cat(readLines(file), sep = "\\n")
-update_xml(file, "books")
+conn$update_xml(file, "books")
 
 # Update commands - can include many varying commands
 ## Add files
 file <- system.file("examples", "books2_delete.xml", package = "solrium")
 cat(readLines(file), sep = "\\n")
-update_xml(file, "books")
+conn$update_xml(file, "books")
 
 ## Delete files
-file <- system.file("examples", "updatecommands_delete.xml", package = "solrium")
+file <- system.file("examples", "updatecommands_delete.xml",
+package = "solrium")
 cat(readLines(file), sep = "\\n")
-update_xml(file, "books")
+conn$update_xml(file, "books")
 
 ## Add and delete in the same document
 ## Add a document first, that we can later delete
 ss <- list(list(id = 456, name = "cat"))
-add(ss, "books")
+conn$add(ss, "books")
 ## Now add a new document, and delete the one we just made
 file <- system.file("examples", "add_delete.xml", package = "solrium")
 cat(readLines(file), sep = "\\n")
-update_xml(file, "books")
+conn$update_xml(file, "books")
 }
 }
 \seealso{
 Other update: \code{\link{update_csv}},
   \code{\link{update_json}}
 }
-

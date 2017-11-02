@@ -4,23 +4,28 @@
 \alias{collection_delete}
 \title{Add a collection}
 \usage{
-collection_delete(name, raw = FALSE, ...)
+collection_delete(conn, name, raw = FALSE, callopts = list())
 }
 \arguments{
-\item{name}{The name of the collection to be created. Required}
+\item{conn}{A solrium connection object, see \link{SolrClient}}
+
+\item{name}{(character) The name of the core to be created. Required}
 
 \item{raw}{(logical) If \code{TRUE}, returns raw data}
 
-\item{...}{curl options passed on to \code{\link[httr]{GET}}}
+\item{callopts}{curl options passed on to \code{\link[crul]{HttpClient}}}
 }
 \description{
 Add a collection
 }
 \examples{
 \dontrun{
-solr_connect()
-collection_create(name = "helloWorld")
-collection_delete(name = "helloWorld")
-}
+(conn <- SolrClient$new())
+
+if (!conn$collection_exists("helloWorld")) {
+  conn$collection_create(name = "helloWorld")
 }
 
+collection_delete(conn, name = "helloWorld")
+}
+}

@@ -2,15 +2,17 @@
 % Please edit documentation in R/update_json.R
 \name{update_json}
 \alias{update_json}
-\title{Update documents using JSON}
+\title{Update documents with JSON data}
 \usage{
-update_json(files, name, commit = TRUE, optimize = FALSE,
+update_json(conn, files, name, commit = TRUE, optimize = FALSE,
   max_segments = 1, expunge_deletes = FALSE, wait_searcher = TRUE,
   soft_commit = FALSE, prepare_commit = NULL, wt = "json", raw = FALSE,
   ...)
 }
 \arguments{
-\item{files}{Path to file to load into Solr}
+\item{conn}{A solrium connection object, see \link{SolrClient}}
+
+\item{files}{Path to a single file to load into Solr}
 
 \item{name}{(character) Name of the core or collection}
 
@@ -35,56 +37,54 @@ Default: \code{FALSE}}
 calls Lucene's IndexWriter.prepareCommit(). Not passed by default}
 
 \item{wt}{(character) One of json (default) or xml. If json, uses 
-\code{\link[jsonlite]{fromJSON}} to parse. If xml, uses \code{\link[XML]{xmlParse}} to 
-parse}
+\code{\link[jsonlite]{fromJSON}} to parse. If xml, uses 
+\code{\link[xml2]{read_xml}} to parse}
 
 \item{raw}{(logical) If \code{TRUE}, returns raw data in format specified by 
 \code{wt} param}
 
-\item{...}{curl options passed on to \code{\link[httr]{GET}}}
+\item{...}{curl options passed on to \code{\link[crul]{HttpClient}}}
 }
 \description{
-Update documents using JSON
+Update documents with JSON data
 }
 \details{
-You likely may not be able to run this function against many public Solr 
-services, but should work locally.
+You likely may not be able to run this function against many 
+public Solr services, but should work locally.
 }
 \examples{
 \dontrun{
-# start Solr in Schemaless mode: bin/solr start -e schemaless
+# start Solr: bin/solr start -f -c -p 8983
 
 # connect
-solr_connect()
+(conn <- SolrClient$new())
 
 # Add documents
 file <- system.file("examples", "books2.json", package = "solrium")
 cat(readLines(file), sep = "\\n")
-update_json(file, "books")
+conn$update_json(files = file, name = "books")
+update_json(conn, files = file, name = "books")
 
 # Update commands - can include many varying commands
 ## Add file
-file <- system.file("examples", "updatecommands_add.json", package = "solrium")
+file <- system.file("examples", "updatecommands_add.json",
+  package = "solrium")
 cat(readLines(file), sep = "\\n")
-update_json(file, "books")
+conn$update_json(file, "books")
 
 ## Delete file
-file <- system.file("examples", "updatecommands_delete.json", package = "solrium")
+file <- system.file("examples", "updatecommands_delete.json",
+  package = "solrium")
 cat(readLines(file), sep = "\\n")
-update_json(file, "books")
+conn$update_json(file, "books")
 
 # Add and delete in the same document
 ## Add a document first, that we can later delete
 ss <- list(list(id = 456, name = "cat"))
-add(ss, "books")
-## Now add a new document, and delete the one we just made
-file <- system.file("examples", "add_delete.json", package = "solrium")
-cat(readLines(file), sep = "\\n")
-update_json(file, "books")
+conn$add(ss, "books")
 }
 }
 \seealso{
 Other update: \code{\link{update_csv}},
   \code{\link{update_xml}}
 }
-

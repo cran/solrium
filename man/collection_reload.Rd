@@ -4,23 +4,28 @@
 \alias{collection_reload}
 \title{Reload a collection}
 \usage{
-collection_reload(name, raw = FALSE, ...)
+collection_reload(conn, name, raw = FALSE, callopts)
 }
 \arguments{
-\item{name}{The name of the collection to reload. Required}
+\item{conn}{A solrium connection object, see \link{SolrClient}}
+
+\item{name}{(character) The name of the core to be created. Required}
 
 \item{raw}{(logical) If \code{TRUE}, returns raw data}
 
-\item{...}{curl options passed on to \code{\link[httr]{GET}}}
+\item{callopts}{curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
 }
 \description{
 Reload a collection
 }
 \examples{
 \dontrun{
-solr_connect()
-collection_create(name = "helloWorld")
-collection_reload(name = "helloWorld")
-}
+(conn <- SolrClient$new())
+
+if (!conn$collection_exists("helloWorld")) {
+  conn$collection_create(name = "helloWorld")
 }
 
+conn$collection_reload(name = "helloWorld")
+}
+}

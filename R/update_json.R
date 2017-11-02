@@ -1,50 +1,47 @@
-#' Update documents using JSON
+#' Update documents with JSON data
 #'
 #' @export
 #' @family update
 #' @template update
 #' @template commitcontrol
-#' @param files Path to file to load into Solr
+#' @param conn A solrium connection object, see [SolrClient]
+#' @param files Path to a single file to load into Solr
 #' @examples \dontrun{
-#' # start Solr in Schemaless mode: bin/solr start -e schemaless
-#' 
+#' # start Solr: bin/solr start -f -c -p 8983
+#'
 #' # connect
-#' solr_connect()
+#' (conn <- SolrClient$new())
 #'
 #' # Add documents
 #' file <- system.file("examples", "books2.json", package = "solrium")
 #' cat(readLines(file), sep = "\n")
-#' update_json(file, "books")
+#' conn$update_json(files = file, name = "books")
+#' update_json(conn, files = file, name = "books")
 #'
 #' # Update commands - can include many varying commands
 #' ## Add file
-#' file <- system.file("examples", "updatecommands_add.json", package = "solrium")
+#' file <- system.file("examples", "updatecommands_add.json",
+#'   package = "solrium")
 #' cat(readLines(file), sep = "\n")
-#' update_json(file, "books")
+#' conn$update_json(file, "books")
 #'
 #' ## Delete file
-#' file <- system.file("examples", "updatecommands_delete.json", package = "solrium")
+#' file <- system.file("examples", "updatecommands_delete.json",
+#'   package = "solrium")
 #' cat(readLines(file), sep = "\n")
-#' update_json(file, "books")
+#' conn$update_json(file, "books")
 #'
 #' # Add and delete in the same document
 #' ## Add a document first, that we can later delete
 #' ss <- list(list(id = 456, name = "cat"))
-#' add(ss, "books")
-#' ## Now add a new document, and delete the one we just made
-#' file <- system.file("examples", "add_delete.json", package = "solrium")
-#' cat(readLines(file), sep = "\n")
-#' update_json(file, "books")
+#' conn$add(ss, "books")
 #' }
-update_json <- function(files, name, commit = TRUE, optimize = FALSE, max_segments = 1,
-                        expunge_deletes = FALSE, wait_searcher = TRUE, soft_commit = FALSE,
-                        prepare_commit = NULL, wt = 'json', raw = FALSE, ...) {
+update_json <- function(conn, files, name, commit = TRUE, optimize = FALSE,
+  max_segments = 1, expunge_deletes = FALSE, wait_searcher = TRUE,
+  soft_commit = FALSE, prepare_commit = NULL, wt = 'json', raw = FALSE, ...) {
 
-  conn <- solr_settings()
-  check_conn(conn)
-  #stop_if_absent(name)
-  args <- sc(list(commit = asl(commit), optimize = asl(optimize), maxSegments = max_segments,
-                  expungeDeletes = asl(expunge_deletes), waitSearcher = asl(wait_searcher),
-                  softCommit = asl(soft_commit), prepareCommit = prepare_commit, wt = wt))
-  docreate(file.path(conn$url, sprintf('solr/%s/update/json/docs', name)), files, args, 'json', raw, ...)
+	check_sr(conn)
+  conn$update_json(files, name, commit, optimize, max_segments,
+                   expunge_deletes, wait_searcher, soft_commit, prepare_commit,
+                   wt, raw, ...)
 }
