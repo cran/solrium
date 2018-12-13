@@ -6,7 +6,8 @@
 \usage{
 solr_mlt(conn, name = NULL, params = NULL, body = NULL,
   callopts = list(), raw = FALSE, parsetype = "df", concat = ",",
-  optimizeMaxRows = TRUE, minOptimizedRows = 50000L, ...)
+  optimizeMaxRows = TRUE, minOptimizedRows = 50000L, progress = NULL,
+  ...)
 }
 \arguments{
 \item{conn}{A solrium connection object, see \link{SolrClient}}
@@ -19,7 +20,7 @@ as long as no body parameters given}
 \item{body}{(list) a named list of parameters, if given a POST request
 will be performed}
 
-\item{callopts}{Call options passed on to [crul::HttpClient]}
+\item{callopts}{Call options passed on to \link[crul:HttpClient]{crul::HttpClient}}
 
 \item{raw}{(logical) If TRUE, returns raw data in format specified by wt param}
 
@@ -37,6 +38,10 @@ than \code{minOptimizedRows}. Default: \code{TRUE}}
 \item{minOptimizedRows}{(numeric) used by \code{optimizedMaxRows} parameter,
 the minimum optimized rows. Default: 50000}
 
+\item{progress}{a function with logic for printing a progress
+bar for an HTTP request, ultimately passed down to \pkg{curl}. only supports
+\code{httr::progress} for now. See the README for an example.}
+
 \item{...}{Further args to be combined into query}
 }
 \value{
@@ -48,35 +53,35 @@ Returns only more like this items
 \section{More like this parameters}{
 
 \itemize{
- \item q Query terms, defaults to '*:*', or everything.
- \item fq Filter query, this does not affect the search, only what gets returned
- \item mlt.count The number of similar documents to return for each result. Default is 5.
- \item mlt.fl The fields to use for similarity. NOTE: if possible these should have a stored
+\item q Query terms, defaults to '\emph{:}', or everything.
+\item fq Filter query, this does not affect the search, only what gets returned
+\item mlt.count The number of similar documents to return for each result. Default is 5.
+\item mlt.fl The fields to use for similarity. NOTE: if possible these should have a stored
 TermVector DEFAULT_FIELD_NAMES = new String[] {"contents"}
- \item mlt.mintf Minimum Term Frequency - the frequency below which terms will be ignored in
+\item mlt.mintf Minimum Term Frequency - the frequency below which terms will be ignored in
 the source doc. DEFAULT_MIN_TERM_FREQ = 2
- \item mlt.mindf Minimum Document Frequency - the frequency at which words will be ignored which
+\item mlt.mindf Minimum Document Frequency - the frequency at which words will be ignored which
 do not occur in at least this many docs. DEFAULT_MIN_DOC_FREQ = 5
- \item mlt.minwl minimum word length below which words will be ignored.
+\item mlt.minwl minimum word length below which words will be ignored.
 DEFAULT_MIN_WORD_LENGTH = 0
- \item mlt.maxwl maximum word length above which words will be ignored.
+\item mlt.maxwl maximum word length above which words will be ignored.
 DEFAULT_MAX_WORD_LENGTH = 0
- \item mlt.maxqt maximum number of query terms that will be included in any generated query.
+\item mlt.maxqt maximum number of query terms that will be included in any generated query.
 DEFAULT_MAX_QUERY_TERMS = 25
- \item mlt.maxntp maximum number of tokens to parse in each example doc field that is not stored
+\item mlt.maxntp maximum number of tokens to parse in each example doc field that is not stored
 with TermVector support. DEFAULT_MAX_NUM_TOKENS_PARSED = 5000
- \item mlt.boost [true/false] set if the query will be boosted by the interesting term relevance.
+\item mlt.boost (true/false) set if the query will be boosted by the interesting term relevance.
 DEFAULT_BOOST = false
- \item mlt.qf Query fields and their boosts using the same format as that used in
+\item mlt.qf Query fields and their boosts using the same format as that used in
 DisMaxQParserPlugin. These fields must also be specified in mlt.fl.
- \item fl Fields to return. We force 'id' to be returned so that there is a unique identifier
+\item fl Fields to return. We force 'id' to be returned so that there is a unique identifier
 with each record.
- \item wt (character) Data type returned, defaults to 'json'. One of json or xml. If json,
+\item wt (character) Data type returned, defaults to 'json'. One of json or xml. If json,
 uses \code{\link[jsonlite]{fromJSON}} to parse. If xml, uses \code{\link[XML]{xmlParse}} to
 parse. csv is only supported in \code{\link{solr_search}} and \code{\link{solr_all}}.
- \item start Record to start at, default to beginning.
- \item rows Number of records to return. Defaults to 10.
- \item key API key, if needed.
+\item start Record to start at, default to beginning.
+\item rows Number of records to return. Defaults to 10.
+\item key API key, if needed.
 }
 }
 
