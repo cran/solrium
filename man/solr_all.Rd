@@ -14,7 +14,7 @@ solr_all(conn, name = NULL, params = NULL, body = NULL,
 
 \item{name}{Name of a collection or core. Or leave as \code{NULL} if not needed.}
 
-\item{params}{(list) a named list of parameters, results in a GET reqeust
+\item{params}{(list) a named list of parameters, results in a GET request
 as long as no body parameters given}
 
 \item{body}{(list) a named list of parameters, if given a POST request
@@ -145,7 +145,7 @@ solr_all(cli, params = list(q='*:*', rows=50, fl=c('id','score'),
 }
 }
 \references{
-See \url{http://wiki.apache.org/solr/#Search_and_Indexing} for
+See https://lucene.apache.org/solr/guide/8_2/searching.html for
 more information.
 }
 \seealso{

@@ -5,13 +5,14 @@
 #' @export
 #' @template stats
 #' @param conn A solrium connection object, see [SolrClient]
-#' @param params (list) a named list of parameters, results in a GET reqeust
+#' @param params (list) a named list of parameters, results in a GET request
 #' as long as no body parameters given
 #' @param body (list) a named list of parameters, if given a POST request
 #' will be performed
 #' @return XML, JSON, a list, or data.frame
 #' @seealso [solr_highlight()], [solr_facet()], [solr_search()], [solr_mlt()]
-#' @references See <http://wiki.apache.org/solr/StatsComponent> for
+#' @references See
+#' https://lucene.apache.org/solr/guide/8_2/the-stats-component.html for
 #' more information on Solr stats.
 #' @examples \dontrun{
 #' # connect

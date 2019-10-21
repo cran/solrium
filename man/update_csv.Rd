@@ -86,10 +86,9 @@ with &overwrite=false.}
 default is commit=false to avoid the potential performance impact of frequent commits.}
 
 \item{wt}{(character) One of json (default) or xml. If json, uses
-\code{\link[jsonlite]{fromJSON}} to parse. If xml, uses
-\code{\link[xml2]{read_xml}} to parse}
+\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}} to parse. If xml, uses \code{\link[xml2:read_xml]{xml2::read_xml()}} to parse}
 
-\item{raw}{(logical) If TRUE, returns raw data in format specified by
+\item{raw}{(logical) If \code{TRUE}, returns raw data in format specified by
 \code{wt} param}
 
 \item{...}{curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
@@ -99,17 +98,17 @@ Update documents with CSV data
 }
 \note{
 SOLR v1.2 was first version to support csv. See
-\url{https://issues.apache.org/jira/browse/SOLR-66}
+https://issues.apache.org/jira/browse/SOLR-66
 }
 \examples{
 \dontrun{
 # start Solr: bin/solr start -f -c -p 8983
 
 # connect
-(cli <- SolrClient$new())
+(conn <- SolrClient$new())
 
-if (!cli$collection_exists("helloWorld")) {
-  cli$collection_create(name = "helloWorld", numShards = 2)
+if (!conn$collection_exists("helloWorld")) {
+  conn$collection_create(name = "helloWorld", numShards = 2)
 }
 
 df <- data.frame(id=1:3, name=c('red', 'blue', 'green'))

@@ -5,14 +5,14 @@
 #' @export
 #' @template facet
 #' @param conn A solrium connection object, see [SolrClient]
-#' @param params (list) a named list of parameters, results in a GET reqeust
+#' @param params (list) a named list of parameters, results in a GET request
 #' as long as no body parameters given
 #' @param body (list) a named list of parameters, if given a POST request
 #' will be performed
 #' @return Raw json or xml, or a list of length 4 parsed elements
 #' (usually data.frame's).
 #' @seealso [solr_search()], [solr_highlight()], [solr_parse()]
-#' @references See <http://wiki.apache.org/solr/SimpleFacetParameters> for
+#' @references See https://lucene.apache.org/solr/guide/8_2/faceting.html for
 #' more information on faceting.
 #' @examples \dontrun{
 #' # connect - local Solr instance

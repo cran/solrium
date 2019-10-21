@@ -14,7 +14,7 @@ solr_stats(conn, name = NULL, params = list(q = "*:*", stats.field =
 \item{name}{Name of a collection or core. Or leave as \code{NULL} if
 not needed.}
 
-\item{params}{(list) a named list of parameters, results in a GET reqeust
+\item{params}{(list) a named list of parameters, results in a GET request
 as long as no body parameters given}
 
 \item{body}{(list) a named list of parameters, if given a POST request
@@ -97,7 +97,8 @@ solr_stats(cli, params = list(q='ecology', stats.field='alm_twitterCount'),
 }
 }
 \references{
-See \url{http://wiki.apache.org/solr/StatsComponent} for
+See
+https://lucene.apache.org/solr/guide/8_2/the-stats-component.html for
 more information on Solr stats.
 }
 \seealso{

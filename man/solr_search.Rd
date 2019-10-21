@@ -14,7 +14,7 @@ solr_search(conn, name = NULL, params = list(q = "*:*"), body = NULL,
 
 \item{name}{Name of a collection or core. Or leave as \code{NULL} if not needed.}
 
-\item{params}{(list) a named list of parameters, results in a GET reqeust
+\item{params}{(list) a named list of parameters, results in a GET request
 as long as no body parameters given}
 
 \item{body}{(list) a named list of parameters, if given a POST request
@@ -53,7 +53,7 @@ including facets, groups, mlt, stats, and highlights.
 }
 \note{
 SOLR v1.2 was first version to support csv. See
-\url{https://issues.apache.org/jira/browse/SOLR-66}
+https://issues.apache.org/jira/browse/SOLR-66
 }
 \section{Parameters}{
 
@@ -226,7 +226,7 @@ attr(res, "nextCursorMark")
 }
 }
 \references{
-See \url{http://wiki.apache.org/solr/#Search_and_Indexing}
+See https://lucene.apache.org/solr/guide/8_2/searching.html
 for more information.
 }
 \seealso{

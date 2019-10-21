@@ -29,7 +29,7 @@
 #' For more information, see also the section Document Routing. Default: `compositeId`
 #' @param shards (character) A comma separated list of shard names, e.g.,
 #' shard-x,shard-y,shard-z . This is a required parameter when using the 'implicit' router.
-#' @param createNodeSet.shuffle	(logical)	Controls wether or not the shard-replicas created
+#' @param createNodeSet.shuffle	(logical)	Controls whether or not the shard-replicas created
 #' for this collection will be assigned to the nodes specified by the createNodeSet in a
 #' sequential manner, or if the list of nodes should be shuffled prior to creating individual
 #' replicas.  A 'false' value makes the results of a collection creation predictible and
@@ -51,16 +51,16 @@
 #' @param ... You can pass in parameters like `property.name=value`	to set
 #' core property name to value. See the section Defining core.properties for
 #' details on supported properties and values.
-#' (https://lucene.apache.org/solr/guide/7_0/defining-core-properties.html)
+#' (https://lucene.apache.org/solr/guide/8_2/defining-core-properties.html)
 #' @examples \dontrun{
 #' # connect
-#' (cli <- SolrClient$new())
+#' (conn <- SolrClient$new())
 #'
-#' if (!cli$collection_exists("helloWorld")) {
-#'   cli$collection_create(name = "helloWorld")
+#' if (!conn$collection_exists("helloWorld")) {
+#'   conn$collection_create(name = "helloWorld")
 #' }
-#' if (!cli$collection_exists("tablesChairs")) {
-#'   cli$collection_create(name = "tablesChairs")
+#' if (!conn$collection_exists("tablesChairs")) {
+#'   conn$collection_create(name = "tablesChairs")
 #' }
 #' }
 collection_create <- function(conn, name, numShards = 1, maxShardsPerNode = 1,

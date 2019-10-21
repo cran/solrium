@@ -6,13 +6,13 @@
 #' @template mlt
 #' @template optimizerows
 #' @param conn A solrium connection object, see [SolrClient]
-#' @param params (list) a named list of parameters, results in a GET reqeust
+#' @param params (list) a named list of parameters, results in a GET request
 #' as long as no body parameters given
 #' @param body (list) a named list of parameters, if given a POST request
 #' will be performed
 #' @return XML, JSON, a list, or data.frame
-#' @references See \url{http://wiki.apache.org/solr/MoreLikeThis} for more
-#' information.
+#' @references See https://lucene.apache.org/solr/guide/8_2/morelikethis.html
+#' for more information.
 #' @examples \dontrun{
 #' # connect
 #' (conn <- SolrClient$new(host = "api.plos.org", path = "search", port = NULL))

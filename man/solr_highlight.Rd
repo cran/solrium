@@ -13,7 +13,7 @@ solr_highlight(conn, name = NULL, params = NULL, body = NULL,
 
 \item{name}{Name of a collection or core. Or leave as \code{NULL} if not needed.}
 
-\item{params}{(list) a named list of parameters, results in a GET reqeust
+\item{params}{(list) a named list of parameters, results in a GET request
 as long as no body parameters given}
 
 \item{body}{(list) a named list of parameters, if given a POST request
@@ -180,8 +180,8 @@ solr_parse(out, parsetype='list')
 }
 }
 \references{
-See \url{http://wiki.apache.org/solr/HighlightingParameters} for
-more information on highlighting.
+See https://lucene.apache.org/solr/guide/8_2/highlighting.html
+for more information on highlighting.
 }
 \seealso{
 \code{\link[=solr_search]{solr_search()}}, \code{\link[=solr_facet]{solr_facet()}}

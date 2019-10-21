@@ -7,21 +7,20 @@
 #' @param files Path to a single file to load into Solr
 #' @param name (character) Name of the core or collection
 #' @param wt (character) One of json (default) or xml. If json, uses
-#' \code{\link[jsonlite]{fromJSON}} to parse. If xml, uses
-#' \code{\link[xml2]{read_xml}} to parse
-#' @param raw (logical) If TRUE, returns raw data in format specified by
-#' \code{wt} param
+#' [jsonlite::fromJSON()] to parse. If xml, uses [xml2::read_xml()] to parse
+#' @param raw (logical) If `TRUE`, returns raw data in format specified by
+#' `wt` param
 #' @param ... curl options passed on to [crul::HttpClient]
 #' @note SOLR v1.2 was first version to support csv. See
-#' \url{https://issues.apache.org/jira/browse/SOLR-66}
+#' https://issues.apache.org/jira/browse/SOLR-66
 #' @examples \dontrun{
 #' # start Solr: bin/solr start -f -c -p 8983
 #'
 #' # connect
-#' (cli <- SolrClient$new())
+#' (conn <- SolrClient$new())
 #'
-#' if (!cli$collection_exists("helloWorld")) {
-#'   cli$collection_create(name = "helloWorld", numShards = 2)
+#' if (!conn$collection_exists("helloWorld")) {
+#'   conn$collection_create(name = "helloWorld", numShards = 2)
 #' }
 #'
 #' df <- data.frame(id=1:3, name=c('red', 'blue', 'green'))
