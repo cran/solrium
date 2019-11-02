@@ -1,7 +1,7 @@
-f6410aa21c22484dca59caf0ea05695a *DESCRIPTION
-1b96a74f7e95cf508e814ad0c04525e5 *LICENSE
+90fd4b95cab78199b79573ab980c2fc2 *DESCRIPTION
+de9532c5aeb8082a5fc9cbee02186d6f *LICENSE
 8bb26db3783337ff6800d0b41f5f9906 *NAMESPACE
-9625779f75c1bd9555538a6534849a43 *NEWS.md
+4a80bae7b35cdae28fe0c8f5967c3fc7 *NEWS.md
 1704de8c11d4e06c557d3bfc02728a11 *R/SolrClient.R
 24f6b448bc1765991dd23be942cd4247 *R/add.R
 74a70333074fe4456d00b6e2277e530f *R/check_args_helpers.R
@@ -46,7 +46,7 @@ f3b523bb70d42fb5c98cbeea4d08af4e *R/core_split.R
 70814361469f34b89ac64ad91b9a6f14 *R/core_status.R
 095be328ef1ea975747ecf7c0afaa943 *R/core_swap.R
 28f5ddc4556cd77646bcd5195a5f0f30 *R/core_unload.R
-316e8689181ce738f3d30597d4d9361f *R/delete.R
+727e9aac1a5453f209e235b4b4df5157 *R/delete.R
 c497e20c95c55bf83ad3ba7d46c40bbf *R/optimize.R
 02ba7bbb95ad0974c53053c6e8ab52db *R/parsers.r
 8537d997ad200c9001ccb78fd244ef87 *R/ping.R
@@ -67,7 +67,7 @@ f10be418030c7be9016d41a74892089a *R/update_atomic_json.R
 cdd0e07d954bdc0e7107eaad6eeb910e *R/update_csv.R
 ae1fe1b092aec27b166e6ae79c8ab891 *R/update_json.R
 ecee6b8324315ee18654c01e2ef62093 *R/update_xml.R
-34b79715829145b9188071c78198e4a6 *R/zzz.r
+8568c8a36f1a4e6ce6f565a23f4f39e6 *R/zzz.r
 eeaba7e91a0ed6a7df6e94027fdfc5c6 *README.md
 9d5bb5b64de3ad3b5322393ee819ced0 *build/vignette.rds
 8cb13f5fbcc7dcb1b4deb3f380d7e774 *inst/doc/cores_collections.Rmd
@@ -136,7 +136,7 @@ d1694627e19f17b525c39948c796abe8 *man/core_mergeindexes.Rd
 aad7bd951f4314b143a6301c0fd9dc6f *man/core_status.Rd
 09ae73ae4f4856491095a66be72f8ca8 *man/core_swap.Rd
 8e1355d8db208f311a9b5374f1afce85 *man/core_unload.Rd
-6c42d7de9f8c8167d581c93cea7983bd *man/delete.Rd
+247ff755bad13a65ee77c94d5019c2f9 *man/delete.Rd
 c500e495fc2936de7888060c883b1fe5 *man/is-sr.Rd
 773e7575d5753efe8175c2f82ea32b13 *man/makemultiargs.Rd
 2360da5240906b0ffdebc5d9f051b14b *man/ping.Rd
