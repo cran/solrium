@@ -4,12 +4,30 @@
 \alias{update_csv}
 \title{Update documents with CSV data}
 \usage{
-update_csv(conn, files, name, separator = ",", header = TRUE,
-  fieldnames = NULL, skip = NULL, skipLines = 0, trim = FALSE,
-  encapsulator = NULL, escape = NULL, keepEmpty = FALSE,
-  literal = NULL, map = NULL, split = NULL, rowid = NULL,
-  rowidOffset = NULL, overwrite = NULL, commit = NULL, wt = "json",
-  raw = FALSE, ...)
+update_csv(
+  conn,
+  files,
+  name,
+  separator = ",",
+  header = TRUE,
+  fieldnames = NULL,
+  skip = NULL,
+  skipLines = 0,
+  trim = FALSE,
+  encapsulator = NULL,
+  escape = NULL,
+  keepEmpty = FALSE,
+  literal = NULL,
+  map = NULL,
+  split = NULL,
+  rowid = NULL,
+  rowidOffset = NULL,
+  overwrite = NULL,
+  commit = NULL,
+  wt = "json",
+  raw = FALSE,
+  ...
+)
 }
 \arguments{
 \item{conn}{A solrium connection object, see \link{SolrClient}}
@@ -66,7 +84,7 @@ field "foo" \code{f.foo.map=RemoveMe:&f.foo.keepEmpty=false }}
 
 \item{split}{If TRUE, the field value is split into multiple values by another
 CSV parser. The CSV parsing rules such as separator and encapsulator may be specified
-as field parameters. See \url{https://wiki.apache.org/solr/UpdateCSV#split} for examples.}
+as field parameters.}
 
 \item{rowid}{If not null, add a new field to the document where the passed in parameter
 name is the field name to be added and the current line/rowid is the value. This is
@@ -122,7 +140,8 @@ conn$update_csv("df.csv", "helloWorld", wt = "json", raw = TRUE)
 }
 }
 \seealso{
-Other update: \code{\link{update_json}},
-  \code{\link{update_xml}}
+Other update: 
+\code{\link{update_json}()},
+\code{\link{update_xml}()}
 }
 \concept{update}

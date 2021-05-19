@@ -1,5 +1,8 @@
 context("core_create")
 
+skip_if(solr_missing(conn))
+skip_on_ci()
+
 test_that("core_create works", {
   skip_on_cran()
   skip_on_travis()

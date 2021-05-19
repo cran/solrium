@@ -4,10 +4,20 @@
 \alias{solr_search}
 \title{Solr search}
 \usage{
-solr_search(conn, name = NULL, params = list(q = "*:*"), body = NULL,
-  callopts = list(), raw = FALSE, parsetype = "df", concat = ",",
-  optimizeMaxRows = TRUE, minOptimizedRows = 50000L, progress = NULL,
-  ...)
+solr_search(
+  conn,
+  name = NULL,
+  params = list(q = "*:*"),
+  body = NULL,
+  callopts = list(),
+  raw = FALSE,
+  parsetype = "df",
+  concat = ",",
+  optimizeMaxRows = TRUE,
+  minOptimizedRows = 50000L,
+  progress = NULL,
+  ...
+)
 }
 \arguments{
 \item{conn}{A solrium connection object, see \link{SolrClient}}
@@ -82,7 +92,7 @@ or a single character vector with one or more comma separated names, like
 \code{'id,title'}
 \item defType Specify the query parser to use with this request.
 \item timeAllowed The time allowed for a search to finish. This value only applies
-to the search and not to requests in general. Time is in milliseconds. Values <= 0
+to the search and not to requests in general. Time is in milliseconds. Values \code{<= 0}
 mean no time restriction. Partial results may be returned (if there are any).
 \item qt Which query handler used. Options: dismax, others?
 \item NOW Set a fixed time for evaluating Date based expresions
@@ -104,6 +114,17 @@ uses \code{\link[xml2:read_xml]{xml2::read_xml()}} to parse. If csv, uses \code{
 \code{wt=csv} gives the fastest performance at least in all the cases we have
 tested in, thus it's the default value for \code{wt}
 }
+}
+
+\section{number of results}{
+
+Because \code{solr_search()} returns a data.frame, metadata doesn't fit into the
+output data.frame itself. You can access number of results (\code{numFound}) in
+the attributes of the results. For example, \code{attr(x, "numFound")} for
+number of results, and \code{attr(x, "start")} for the offset value (if one
+was given). Or you can get all attributes like \code{attributes(x)}. These
+metadata are not in the attributes when \code{raw=TRUE} as those metadata
+are in the payload (unless \code{wt="csv"}).
 }
 
 \examples{

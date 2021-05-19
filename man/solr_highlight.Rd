@@ -4,9 +4,17 @@
 \alias{solr_highlight}
 \title{Highlighting search}
 \usage{
-solr_highlight(conn, name = NULL, params = NULL, body = NULL,
-  callopts = list(), raw = FALSE, parsetype = "df",
-  progress = NULL, ...)
+solr_highlight(
+  conn,
+  name = NULL,
+  params = NULL,
+  body = NULL,
+  callopts = list(),
+  raw = FALSE,
+  parsetype = "df",
+  progress = NULL,
+  ...
+)
 }
 \arguments{
 \item{conn}{A solrium connection object, see \link{SolrClient}}
@@ -52,8 +60,7 @@ it is possible for any number of snippets from zero to this value to be generate
 This parameter accepts per-field overrides. Default: 1.
 \item hl.fragsize The size, in characters, of the snippets (aka fragments) created by
 the highlighter. In the original Highlighter, "0" indicates that the whole field value
-should be used with no fragmenting. See
-\url{http://wiki.apache.org/solr/HighlightingParameters} for more info.
+should be used with no fragmenting.
 \item hl.q Set a query request to be highlighted. It overrides q parameter for
 highlighting. Solr query syntax is acceptable for this parameter.
 \item hl.mergeContiguous Collapse contiguous fragments into a single fragment. "true"
@@ -89,11 +96,11 @@ post text snippet. This parameter accepts per-field overrides. This parameter ma
 sense for the original Highlighter only.
 \item hl.simple.pre The text which appears before and after a highlighted term when using
 the simple formatter. This parameter accepts per-field overrides. The default values are
-"<em>" and "</em>" This parameter makes sense for the original Highlighter only. Use
+\code{<em>} and \code{</em>} This parameter makes sense for the original Highlighter only. Use
 hl.tag.pre and hl.tag.post for FastVectorHighlighter (see example under hl.fragmentsBuilder)
 \item hl.simple.post The text which appears before and after a highlighted term when using
 the simple formatter. This parameter accepts per-field overrides. The default values are
-"<em>" and "</em>" This parameter makes sense for the original Highlighter only. Use
+\code{<em>} and \code{</em>} This parameter makes sense for the original Highlighter only. Use
 hl.tag.pre and hl.tag.post for FastVectorHighlighter (see example under hl.fragmentsBuilder)
 \item hl.fragmenter Specify a text snippet generator for highlighted text. The standard
 fragmenter is gap (which is so called because it creates fixed-sized fragments with gaps
